@@ -4,16 +4,16 @@ const express = require('express');
 const md5 = require('md5');
 const bodyParser = require('body-parser');
 
-const messages = require('./messages');
-const users = require('./users');
+const messages = require('./api/messages');
+const users = require('./api/users');
 const app = express();
 
 let nextMessageId = Object.keys(messages).length;
 let nextUserId = Object.keys(users).length;
 
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 8080));
 
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -53,7 +53,7 @@ app.post('/api/user', (req, res) => {
         res.json(user);
     }
     if (save) {
-        fs.writeFile("./users.json", JSON.stringify(users), function (err) {
+        fs.writeFile("./api/users.json", JSON.stringify(users), function (err) {
             if (err) {
                 return console.log(err);
             }
@@ -69,7 +69,7 @@ app.post('/api/messages', (req, res) => {
         owner: req.body.userId
     };
     messages.push(message);
-    fs.writeFile("./messages.json", JSON.stringify(messages), function (err) {
+    fs.writeFile("./api/messages.json", JSON.stringify(messages), function (err) {
         if (err) {
             return console.log(err);
         }
@@ -96,6 +96,17 @@ app.put('/api/messages/:id', (req, res) => {
         }
     }
     return res.sendStatus(404);
+});
+
+if (process.env.NODE_ENV === 'production') {
+    // Serve any static files
+
+}
+app.use(express.static(path.join(__dirname, 'build')));
+// Handle React routing, return all requests to React app
+app.get('/', function (req, res) {
+    console.log(req, res);
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(app.get('port'), () => console.log(`Server is listening: http://localhost:${app.get('port')}`));
