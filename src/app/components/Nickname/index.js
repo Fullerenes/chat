@@ -16,13 +16,13 @@ class Nickname extends Component {
         }
     }
     componentDidMount() {
-        const { dispatch } = this.props;
-        dispatch({
-            type: listenerActions.CHANGE_NICKNAME_REQUEST,
-            payload: {
-                nickname: ""
-            }
-        });
+        //const { dispatch } = this.props;
+        // dispatch({
+        //     type: listenerActions.CHANGE_NICKNAME_REQUEST,
+        //     payload: {
+        //         nickname: ""
+        //     }
+        // });
     }
     handleSubmit = (event) => {
         event.preventDefault();

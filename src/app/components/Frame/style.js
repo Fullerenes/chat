@@ -5,5 +5,7 @@ const FrameStyled = styled.div`
   box-sizing: border-box;
   font-size: 16px;
   font-family: Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: row;
 `;
 export default FrameStyled;

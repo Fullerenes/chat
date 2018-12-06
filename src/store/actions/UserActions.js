@@ -1,6 +1,8 @@
 const prefix = `USER`
 
 export default {
-    AUTH: `${prefix}:AUTH`,
+    WRONG_SESSION: `${prefix}:WRONG_SESSION`,
+    LOGIN: `${prefix}:LOGIN`,
+    LOGOUT: `${prefix}:LOGOUT`,
     CHANGE_NICKNAME: `${prefix}:CHANGE_NICKNAME`
 }

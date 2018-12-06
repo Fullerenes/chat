@@ -1,6 +1,9 @@
 const prefix = `ERROR`
 
 export default {
+    LOGIN_FAILURE: `${prefix}:LOGIN_FAILURE`,
+    LOGIN_CHECK_FAILURE: `${prefix}:LOGIN_FAILURE`,
+    REGISTRATION_FAILURE: `${prefix}:REGISTRATION_FAILURE`,
     FETCH_FAILURE: `${prefix}:FETCH_FAILURE`,
     SEND_FAILURE: `${prefix}:SEND_FAILURE`,
     RECIVE_FAILURE: `${prefix}:RECIVE_FAILURE`,

@@ -21,7 +21,7 @@ class MessageForm extends Component {
     }
 
     Submit = () => {
-        const { dispatch, nickname, userId } = this.props;
+        const { dispatch, nickname, userId, roomId } = this.props;
         let message = this.state.message;
         if (!message) {
             return false;
@@ -31,7 +31,8 @@ class MessageForm extends Component {
             payload: {
                 message,
                 nickname,
-                userId
+                userId,
+                roomId
             }
         })
         this.setState({ message: "" });

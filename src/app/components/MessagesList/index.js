@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { listenerActions } from '../../../store/actions/';
+//import { listenerActions } from '../../../store/actions/';
 
 import MessagesListStyled, { MessagesWindowStyled } from './style';
 
@@ -16,26 +16,31 @@ class MessageList extends Component {
     }
     componentDidMount() {
         this.scrollToBottom();
-        const { dispatch } = this.props;
-        this.interval = setInterval(() => {
-            dispatch({
-                type: listenerActions.FETCH_MESSAGES_REQUEST
-            })
-        }, 1000);
-        dispatch({
-            type: listenerActions.FETCH_MESSAGES_REQUEST
-        })
+        // const { dispatch } = this.props;
+        // this.interval = setInterval(() => {
+        //     dispatch({
+        //         type: listenerActions.FETCH_MESSAGES_REQUEST
+        //     })
+        // }, 1000);
+        // dispatch({
+        //     type: listenerActions.FETCH_MESSAGES_REQUEST
+        // })
 
     }
     componentDidUpdate() {
         this.scrollToBottom();
     }
     render() {
-        let { messages } = this.props;
+        const { messages, roomId } = this.props;
+        const roomMessages = messages[roomId] ? messages[roomId] : [];
+        console.log(roomMessages);
+        if (!messages[roomId]) {
+            messages[roomId] = [];
+        }
         return (
             <MessagesWindowStyled ref={el => this.messagesWindow = el}>
                 <MessagesListStyled ref={el => this.messagesList = el} id="windowList">
-                    {messages.map((message) => (
+                    {roomMessages.map((message) => (
                         <Message key={message.id} {...message} />))}
                 </MessagesListStyled>
             </MessagesWindowStyled>
@@ -44,7 +49,7 @@ class MessageList extends Component {
 }
 
 const enhance = connect(state => ({
-    messages: state.MessagesReducer.messages
+    messages: state.ChatReducer.messages
 }))
 
 export default enhance(MessageList);

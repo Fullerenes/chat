@@ -1,12 +1,14 @@
 
 import listenerActions from './ListenerActions'
 import errorActions from './ErrorActions'
-import messagesActions from './MessagesActions'
+import chatActions from './ChatActions'
 import userActions from './UserActions'
+import roomsActions from './RoomsActions'
 
 export {
     listenerActions,
-    messagesActions,
+    chatActions,
     errorActions,
-    userActions
+    userActions,
+    roomsActions
 }

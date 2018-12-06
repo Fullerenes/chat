@@ -1,20 +1,18 @@
-import React from 'react';
-import {Helmet} from "react-helmet";
-import FrameStyled from './style';
-
-import MainWindow from '../MainWindow';
-
-function Frame(props) {
-    return (
-        <FrameStyled>
-            <Helmet>
-                <meta charSet="utf-8" />
-                <title>Super Chat</title>
-                
-            </Helmet>
-            <MainWindow />
-        </FrameStyled>
-    )
+import React, { Component } from 'react'
+import FrameStyled from './style'
+import MainWindow from '../MainWindow'
+import Sidebar from '../Sidebar'
+class Frame extends Component {
+    render() {
+        return (
+            <FrameStyled>
+                <Sidebar />
+                <MainWindow>
+                    {this.props.children}
+                </MainWindow>
+            </FrameStyled>
+        )
+    }
 }
-
-export default Frame
+//<MainWindow />
+export default Frame;

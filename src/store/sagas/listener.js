@@ -1,15 +1,29 @@
-import { takeEvery } from 'redux-saga/effects'
+import { takeEvery, take, cancelled } from 'redux-saga/effects'
 import { listenerActions } from '../actions'
-import messagesSaga from './messages'
 import userSaga from './user'
 function* listenerSaga() {
-    // LISTING
+    try {
+        yield takeEvery(listenerActions.CONNECT_SUCCESS, () => { console.log('CONNECT_SUCCESS') });
 
-    //NICKNAME
-    yield takeEvery(listenerActions.CHANGE_NICKNAME_REQUEST, userSaga.changeNickname);
+        //NICKNAME
+        yield takeEvery(listenerActions.CHANGE_NICKNAME_REQUEST, userSaga.changeNickname);
+
+        yield take(listenerActions.LISTENER_CANCEL);
+    } catch (error) {
+        console.error(error);
+    } finally {
+        if (yield cancelled()) {
+            console.log('listenerSaga cancelled');
+        }
+    }
+    console.log('listenerSaga');
+    // LISTING
+    //yield takeEvery(listenerActions.CONNECT_REQUEST, messagesSaga.flow);
+    //yield takeEvery(listenerActions.CONNECT_SUCCESS, () => { console.log('CONNECT_SUCCESS') });
+
     //MESSAGES
-    yield takeEvery(listenerActions.FETCH_MESSAGES_REQUEST, messagesSaga.fetchMessages);
-    yield takeEvery(listenerActions.SEND_MESSAGE_REQUEST, messagesSaga.sendMessage);
+    //yield takeEvery(listenerActions.FETCH_MESSAGES_REQUEST, messagesSaga.fetchMessages);
+    // yield takeEvery(listenerActions.SEND_MESSAGE_REQUEST, messagesSaga.sendMessage);
 
 
 }

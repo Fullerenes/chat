@@ -1,0 +1,16 @@
+[
+    {
+        "id": 0,
+        "name": "general",
+        "owner": 0,
+        "private": false,
+        "password": ""
+    },
+    {
+        "id": 1,
+        "name": "public",
+        "owner": 0,
+        "private": false,
+        "password": ""
+    }
+]
