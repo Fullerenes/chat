@@ -50,21 +50,28 @@ function* LoginCheck() {
 }
 function* Login() {
     try {
-        const action = yield take(listenerActions.USER_LOGIN_REQUEST);
-        const { login, password } = action.payload;
-        const answer = yield call(loginApi, login, password);
-        if (!answer.error.error) {
-            const { nickname, userId } = answer.data;
-            yield put({
-                type: userActions.CHANGE_NICKNAME,
-                payload: { nickname, userId }
-            });
-            yield put({
-                type: listenerActions.USER_LOGIN_SUCCESS
-            });
-            return true;
-        } else {
-            throw new Error(answer.error.errorMessage);
+        while (true) {
+            console.log('LOGIN SAGA');
+            const action = yield take(listenerActions.USER_LOGIN_REQUEST);
+            const { login, password } = action.payload;
+            const answer = yield call(loginApi, login, password);
+            if (!answer.error.error) {
+                const { nickname, userId } = answer.data;
+                yield put({
+                    type: userActions.CHANGE_NICKNAME,
+                    payload: { nickname, userId }
+                });
+                yield put({
+                    type: listenerActions.USER_LOGIN_SUCCESS
+                });
+                return true;
+            } else {
+                const error = answer.error.errorMesage;
+                yield put({
+                    type: errorActions.LOGIN_FAILURE,
+                    payload: { error }
+                })
+            }
         }
     } catch (error) {
         yield put({
@@ -109,7 +116,11 @@ function* Registration() {
                 });
                 return true;
             } else {
-                throw new Error(answer.error.errorMessage);
+                const error = answer.error.errorMessage;
+                yield put({
+                    type: errorActions.REGISTRATION_FAILURE,
+                    payload: { error }
+                })
             }
         }
     } catch (error) {

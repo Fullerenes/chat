@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import SidebarStyled from './style'
-import SidebarAuthorized from '../SidebarAuthorized';
-import SidebarCommon from '../SidebarCommon';
+import SidebarAuthorized from '../SidebarAuthorized'
+import SidebarCommon from '../SidebarCommon'
+
 class Sidebar extends Component {
     constructor(props) {
         super(props);
@@ -20,9 +21,15 @@ class Sidebar extends Component {
         this.loginned(nextProps.auth, nextProps.wrongSession);
         return true;
     }
+    onClickHandle = () => {
+        const { handleSidebar } = this.props;
+        console.log('CLICK');
+        handleSidebar(false);
+    }
     render() {
+        const { opened } = this.props;
         return (
-            <SidebarStyled>
+            <SidebarStyled className={opened} onClick={this.onClickHandle} >
                 {
                     this.auth ?
                         (
@@ -38,6 +45,6 @@ class Sidebar extends Component {
     }
 }
 const enhance = connect(state => ({
-    auth: state.UserReducer.auth
+    auth: state.User.auth
 }))
 export default enhance(Sidebar);

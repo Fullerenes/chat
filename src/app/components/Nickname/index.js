@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { listenerActions } from '../../../store/actions'
 
-import NicknameStyled, { NicknameLabelStyled } from './style'
+import NicknameStyled, { NicknameLabelStyled, FormStyled } from './style'
 
 import Input from '../Input'
-import Button from '../Button'
+import PureButton from '../../BasicComponents/PureButton'
+import PencilSrc from './pencil.svg'
+import ChecklSrc from './check.svg'
 
 class Nickname extends Component {
     constructor(props) {
@@ -44,23 +46,19 @@ class Nickname extends Component {
         this.setState({ nickname });
     }
     onEdit = (on) => {
-        let style = {
-            display: "flex",
-            flexDirection: "row"
-        }
         if (on) {
             return (
-                <form style={style} onSubmit={this.handleSubmit}>
+                <FormStyled onSubmit={this.handleSubmit}>
                     <Input autoFocus type="text" placeholder="NickName" onChange={this.handleChange} value={this.state.nickname} />
-                    <Button type="submit">Change Name</Button>
-                </form>
+                    <PureButton type="submit"><img alt="Done" src={ChecklSrc} width="24" height="24" /></PureButton>
+                </FormStyled>
             );
         } else {
             return (
-                <div style={style}>
-                    <NicknameLabelStyled>{this.props.nickname}</NicknameLabelStyled>
-                    <Button onClick={this.handleEditButton}>Change Name</Button>
-                </div >
+                <Fragment>
+                    <NicknameLabelStyled onClick={this.handleEditButton}>{this.props.nickname}</NicknameLabelStyled>
+                    <img onClick={this.handleEditButton} alt="Edit" src={PencilSrc} width="24" height="24" />
+                </Fragment >
             );
         }
     }
@@ -73,6 +71,6 @@ class Nickname extends Component {
     }
 }
 const enhance = connect(state => ({
-    nickname: state.UserReducer.nickname
+    nickname: state.User.nickname
 }));
 export default enhance(Nickname);

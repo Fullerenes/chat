@@ -1,4 +1,4 @@
-import Room from './Room'
+import RoomPage from './RoomPage'
 import Rooms from './Rooms'
 
-export { Room, Rooms }
+export { RoomPage, Rooms }

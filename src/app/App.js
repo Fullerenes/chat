@@ -18,30 +18,26 @@ class App extends Component {
       this.auth = false;
     }
   }
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     this.loginned(nextProps.auth, nextProps.wrongSession);
     return true;
   }
   componentDidUpdate() {
     //this.loginned();
   }
-  componentDidMount() {
-    this.loginned();
-
-  }
   render() {
     return (
-      this.auth === null ?
-        <Loader /> :
-        <Frame>
+      this.auth === null
+        ? <Loader />
+        : <Frame auth={this.auth}>
           {renderRoutes(this.props.route.routes, { auth: this.auth })}
         </Frame>
     );
   }
 }
 const enhance = connect(state => ({
-  auth: state.UserReducer.auth,
-  wrongSession: state.UserReducer.wrongSession
+  auth: state.User.auth,
+  wrongSession: state.User.wrongSession
 }))
 
 export default withRouter(enhance(App));

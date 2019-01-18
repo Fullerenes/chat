@@ -1,4 +1,6 @@
 import { chatActions, roomsActions } from '../actions'
+import _pickBy from 'lodash/pickBy';
+import _isNumber from 'lodash/isNumber';
 /*
   const exampleState = {
     rooms: {
@@ -19,7 +21,9 @@ import { chatActions, roomsActions } from '../actions'
 */
 const initialState = {
     rooms: [],
-    messages: {}
+    messages: {},
+    connected: false,
+    currentRoom: false
 };
 
 export default (state = initialState, action) => {
@@ -35,15 +39,83 @@ export default (state = initialState, action) => {
                 return state
             }
         }
-        case chatActions.FETCH_MESSAGES: {
-            if (action.payload.length)
-                return {
-                    messages: [
-                        ...action.payload
-                    ]
+        case roomsActions.USER_JOIN: {
+            console.log('USER_JOIN')
+            console.log(action.payload);
+            const { nickname, roomId, userId } = action.payload;
+            const rooms = state.rooms.map(room => {
+                let newRoom = room;
+                console.log(newRoom);
+                if (room.id === roomId) {
+                    newRoom = { ...room, currentUsers: { ...room.currentUsers, [userId]: nickname } }
                 }
-            else {
-                return state;
+                return newRoom
+            });
+            return {
+                ...state,
+                rooms
+            }
+        }
+        case roomsActions.USER_LEFT: {
+            console.log('USER_LEFT');
+            console.log(action.payload);
+            const { roomId, userId } = action.payload;
+            const rooms = state.rooms.map(room => {
+                let newRoom = room;
+
+                if (room.id === roomId) {
+                    newRoom = { ...room, currentUsers: _pickBy(room.currentUsers, (value, key) => { console.log(value, key, userId); return parseInt(key) !== userId; }) }
+                }
+                return newRoom
+            });
+            return {
+                ...state,
+                rooms
+            }
+        }
+        case roomsActions.JOINED_ROOM: {
+            const roomId = action.payload.roomId;
+            const rooms = state.rooms.map(room => {
+                if (room.id === roomId)
+                    room.joined = true;
+                return room
+            });
+            return {
+                ...state,
+                rooms
+            };
+        }
+        case roomsActions.LEFT_ROOM: {
+            const roomId = action.payload.roomId;
+            const rooms = state.rooms.map(room => {
+                if (room.id === roomId)
+                    room.joined = false;
+                return room
+            });
+            return {
+                ...state,
+                rooms
+            };
+        }
+        case chatActions.CONNECT_SUCCESS: {
+            return {
+                ...state,
+                connected: true
+            }
+        }
+        case chatActions.DISCONNECT: {
+            return {
+                ...state,
+                connected: false
+            }
+        }
+        case chatActions.FETCH_ROOM_MESSAGES: {
+            return {
+                ...state,
+                messages: {
+                    ...state.messages,
+                    [action.payload.roomId]: action.payload.messages
+                }
             }
         }
         case chatActions.RECIVE_MESSAGE: {
@@ -59,7 +131,7 @@ export default (state = initialState, action) => {
             }
             return {
                 ...state,
-                messages:{
+                messages: {
                     ...state.messages,
                     ...messageObj
                 }

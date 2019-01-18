@@ -1,16 +1,20 @@
 [
     {
         "id": 0,
-        "name": "general",
+        "name": "General",
         "owner": 0,
         "private": false,
-        "password": ""
+        "created": false,
+        "password": "",
+        "currentUsers": {}
     },
     {
         "id": 1,
-        "name": "public",
+        "name": "Main",
         "owner": 0,
         "private": false,
-        "password": ""
+        "created": false,
+        "password": "",
+        "currentUsers": {}
     }
 ]

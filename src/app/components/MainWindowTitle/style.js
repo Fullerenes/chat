@@ -1,12 +1,9 @@
 import styled from 'styled-components';
 
 const MainWindowTitleStyled = styled.div`
-  position: absolute;
   width: 100%;
   box-sizing: border-box;
   z-index: 10;
-  padding: 10px 15px;
-  border-bottom: 1px solid transparent;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   display: flex;

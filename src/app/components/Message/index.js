@@ -22,6 +22,6 @@ class Message extends Component {
     }
 }
 const enhance = connect(state => ({
-    userId: state.UserReducer.userId
+    userId: state.User.userId
 }));
 export default enhance(Message);

@@ -1,10 +1,15 @@
 import { combineReducers } from 'redux';
-import { connectRouter } from 'connected-react-router'
 import ChatReducer from './ChatReducer';
-import UserReducer from './UserReducer';
+import User from './User';
+import Users from './Users';
+import Rooms from './Rooms';
+import Messages from './Messages';
 
-export default (history) => combineReducers({
-    router: connectRouter(history),
+
+export default combineReducers({
     ChatReducer,
-    UserReducer
+    User,
+    Users,
+    Rooms,
+    Messages
 })

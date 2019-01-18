@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { listenerActions } from '../../../store/actions'
 import Navigation from '../Navigation'
 import Button from '../Button';
+import RoomsList from '../RoomsList';
+import UsersList from '../UsersList';
 
 class SidebarAuthorized extends Component {
     handleLogout = () => {
@@ -18,12 +20,14 @@ class SidebarAuthorized extends Component {
                 <Button onClick={this.handleLogout}>Logout</Button>
                 <Navigation>
                     <Link to="/">Rooms</Link>
-                    <br />
-                    <Link to="/room/5">Room 5</Link>
                 </Navigation>
+                <RoomsList />
+                <UsersList />
             </div>
         )
     }
 }
-const enhance = connect(state => ({}))
+const enhance = connect(state => ({
+    nickname: state.User.nickname
+}))
 export default enhance(SidebarAuthorized);

@@ -21,7 +21,7 @@ class MessageForm extends Component {
     }
 
     Submit = () => {
-        const { dispatch, nickname, userId, roomId } = this.props;
+        const { dispatch, roomId } = this.props;
         let message = this.state.message;
         if (!message) {
             return false;
@@ -30,8 +30,6 @@ class MessageForm extends Component {
             type: listenerActions.SEND_MESSAGE_REQUEST,
             payload: {
                 message,
-                nickname,
-                userId,
                 roomId
             }
         })
@@ -60,10 +58,7 @@ class MessageForm extends Component {
         )
     }
 }
-const enhance = connect(state => ({
-    nickname: state.UserReducer.nickname,
-    userId: state.UserReducer.userId
-}));
+const enhance = connect();
 
 export default enhance(MessageForm);
 

@@ -1,8 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import Links from './links'
 import App from '../App'
-import { Room, Rooms } from '../pages/Authorized'
-import { Login, Registration, NotFound } from '../pages/General'
+import { Home } from '../pages/Public'
+import { RoomPage, Rooms } from '../pages/Authorized'
+import { Login, Registration, NotFound } from '../pages/PublicOnly'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     {
@@ -11,7 +13,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
             props.auth ? (
                 <Component {...props} />
             ) : (
-                    <Redirect to={"/login"} />
+                    <Redirect to={Links.Login} />
                 )
         )
     }
@@ -23,7 +25,7 @@ const CommonOnlyRoute = ({ component: Component, ...rest }) => (
             !props.auth ? (
                 <Component {...props} />
             ) : (
-                    <Redirect to={"/"} />
+                    <Redirect to={Links.Home} />
                 )
         )
     }
@@ -34,32 +36,32 @@ const routes = [
     {
         component: App,
         routes: [
-            PrivateRoute({
-                path: "/",
+            {
+                path: Links.Home,
                 exact: true,
-                title: "Rooms",
+                component: Home
+            },
+            PrivateRoute({
+                path: Links.Rooms,
+                exact: true,
                 component: Rooms
             }),
             PrivateRoute({
-                path: "/room/:id",
+                path: `${Links.Room}:id`,
                 exact: true,
-                title: "Room",
-                component: Room
+                component: RoomPage
             }),
             CommonOnlyRoute({
-                path: "/login",
+                path: Links.Login,
                 exact: true,
-                title: "Login",
                 component: Login
             }),
             CommonOnlyRoute({
-                path: "/registration",
+                path: Links.Registration,
                 exact: true,
-                title: "registration",
                 component: Registration
             }),
             {
-                title: "Not Found",
                 component: NotFound
             }
         ]

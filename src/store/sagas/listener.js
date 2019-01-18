@@ -6,7 +6,6 @@ function* listenerSaga() {
         yield takeEvery(listenerActions.CONNECT_SUCCESS, () => { console.log('CONNECT_SUCCESS') });
 
         //NICKNAME
-        yield takeEvery(listenerActions.CHANGE_NICKNAME_REQUEST, userSaga.changeNickname);
 
         yield take(listenerActions.LISTENER_CANCEL);
     } catch (error) {

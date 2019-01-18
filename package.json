@@ -7,10 +7,12 @@
     "axios": "^0.18.0",
     "body-parser": "1.18.3",
     "connected-react-router": "^5.0.1",
+    "cookie": "^0.3.1",
     "cookie-parser": "^1.4.3",
     "express": "4.16.4",
     "http": "0.0.0",
     "js-cookie": "^2.2.0",
+    "lodash": "^4.17.11",
     "md5": "^2.2.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
@@ -20,6 +22,7 @@
     "react-router-config": "^4.4.0-beta.6",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
+    "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.16.2",
@@ -41,5 +44,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:5000"
 }

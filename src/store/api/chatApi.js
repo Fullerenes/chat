@@ -1,17 +1,22 @@
 import io from 'socket.io-client';
-import axios from 'axios';
 import config from '../../config'
 
-export const fetchMessages = () => {
-    return axios.get('/api/messages')
-        .then(response => { return response.data })
-        .then(messages => { return messages })
-        .catch(error => console.error(error.message));
-
+export const fetchRoomMessages = ({ roomId }, socket) => {
+    socket.emit('fetchRoomMessages', roomId);
+    return roomId;
+}
+export const joinRoom = ({ roomId }, socket) => {
+    console.log(roomId);
+    socket.emit('join', roomId);
+    return roomId;
+}
+export const leaveRoom = ({ roomId }, socket) => {
+    console.log(roomId);
+    socket.emit('leave', roomId);
+    return roomId;
 }
 export const send = (mes, socket) => {
-    // let { message, userId, nickname, roomId } = mes;
-    console.log(mes);
+    // let { message, roomId } = mes;
     socket.emit('message', mes);
     return mes;
     // return axios.post('/api/messages', { message, nickname, userId, roomId })
@@ -19,6 +24,13 @@ export const send = (mes, socket) => {
     //     .then(message => ({
     //         message
     //     }));
+}
+export function changeNickname({ nickname }, socket) {
+    console.log('changeNickname START');
+    console.log(nickname);
+    socket.emit('changeNickname', nickname);
+    console.log('changeNickname END');
+    return nickname;
 }
 export function connect() {
     const socket = io(config.server);

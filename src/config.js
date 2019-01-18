@@ -1,4 +1,4 @@
 const config = {
-    server: 'http://localhost:8080'
+    server: 'localhost:5000'
 }
 export default config;

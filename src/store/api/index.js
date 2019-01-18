@@ -7,6 +7,9 @@ export {
 } from './userApi'
 export {
     connect,
-    fetchMessages,
-    send
+    fetchRoomMessages,
+    joinRoom,
+    leaveRoom,
+    send,
+    changeNickname
 } from './chatApi'
