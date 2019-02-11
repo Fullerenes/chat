@@ -4,22 +4,25 @@ import { listenerActions } from '../../../store/actions'
 import compose from 'recompose/compose'
 import withStateHandlers from 'recompose/withStateHandlers'
 import withHandlers from 'recompose/withHandlers'
+import lifecycle from 'recompose/lifecycle'
 import { Link } from 'react-router-dom'
 import Links from '../../routes/links';
 import Input from '../../components/InputWithLabel';
 import Button from '../../components/Button';
 import H1 from '../../BasicComponents/H1'
+import Error from '../../components/Error';
 const style = {
     display: "flex",
     padding: "20px 0 0 0",
     flexDirection: "column",
     textAlign: "center"
 };
-function Registration({ login, handleLogin, password, passwordRepeat, handlePassword, handlePasswordRepeat, handleSubmit, loginError, passwordError, passwordRepeatError }) {
+function Registration({ login, handleLogin, password, passwordRepeat, handlePassword, handlePasswordRepeat, handleSubmit, loginError, passwordError, passwordRepeatError, error }) {
     return (
         <div>
             <form onSubmit={handleSubmit} style={style}>
                 <H1>Registration Page</H1>
+                {!error || <Error>{error}</Error>}
                 <Input placeholder="Login" type="text" value={login} error={loginError} onChange={handleLogin} />
                 <Input placeholder="Password" type="password" value={password} error={passwordError} onChange={handlePassword} />
                 <Input placeholder="Repeat Password" type="password" value={passwordRepeat} error={passwordRepeatError} onChange={handlePasswordRepeat} />
@@ -32,7 +35,18 @@ function Registration({ login, handleLogin, password, passwordRepeat, handlePass
     )
 }
 const enhance = compose(
-    connect(),
+    connect(state => ({
+        error: state.Errors.error
+    })),
+    lifecycle({
+        componentWillUnmount() {
+            const { dispatch } = this.props;
+            dispatch({
+                type: listenerActions.ERRORS_CLEAN,
+                payload: {}
+            })
+        }
+    }),
     withStateHandlers(
         ({ initialLogin = '', initialLoginError = '', initialPassword = '', initialPasswordError = '', initialPasswordRepeat = '', initialPasswordRepeatError = '' }) => ({
             login: initialLogin,

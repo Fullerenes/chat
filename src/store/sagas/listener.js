@@ -1,6 +1,7 @@
 import { takeEvery, take, cancelled } from 'redux-saga/effects'
 import { listenerActions } from '../actions'
 import userSaga from './user'
+
 function* listenerSaga() {
     try {
         yield takeEvery(listenerActions.CONNECT_SUCCESS, () => { console.log('CONNECT_SUCCESS') });

@@ -47,7 +47,7 @@ export default (state = initialState, action) => {
                 let newRoom = room;
                 console.log(newRoom);
                 if (room.id === roomId) {
-                    newRoom = { ...room, currentUsers: { ...room.currentUsers, [userId]: nickname } }
+                    newRoom = { ...room, currentUsers: { ...room.currentUsers, [userId]: { 'nickname': nickname, 'online': true } } }
                 }
                 return newRoom
             });
@@ -71,6 +71,16 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 rooms
+            }
+        }
+        case roomsActions.USER_OFFLINE: {
+            return {
+                ...state
+            }
+        }
+        case roomsActions.USER_ONLINE: {
+            return {
+                ...state
             }
         }
         case roomsActions.JOINED_ROOM: {

@@ -9,5 +9,6 @@ export default {
     FETCH_ROOM_MESSAGES_FAILURE: `${prefix}:FETCH_ROOM_MESSAGES_FAILURE`,
     SEND_FAILURE: `${prefix}:SEND_FAILURE`,
     RECIVE_FAILURE: `${prefix}:RECIVE_FAILURE`,
-    NICKNAME_FAILURE: `${prefix}:NICKNAME_FAILURE`
+    NICKNAME_FAILURE: `${prefix}:NICKNAME_FAILURE`,
+    CLEAN: `${prefix}:CLEAN`
 }

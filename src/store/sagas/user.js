@@ -55,6 +55,8 @@ function* Login() {
             const action = yield take(listenerActions.USER_LOGIN_REQUEST);
             const { login, password } = action.payload;
             const answer = yield call(loginApi, login, password);
+            console.log('LOGIN');
+            console.log(answer);
             if (!answer.error.error) {
                 const { nickname, userId } = answer.data;
                 yield put({
@@ -66,7 +68,9 @@ function* Login() {
                 });
                 return true;
             } else {
-                const error = answer.error.errorMesage;
+                const error = answer.error.errorMessage;
+                console.log("###ANSWER");
+                console.log(error);
                 yield put({
                     type: errorActions.LOGIN_FAILURE,
                     payload: { error }

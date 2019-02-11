@@ -3,23 +3,26 @@ import { connect } from 'react-redux'
 import compose from 'recompose/compose'
 import withStateHandlers from 'recompose/withStateHandlers'
 import withHandlers from 'recompose/withHandlers'
+import lifecycle from 'recompose/lifecycle'
 import { listenerActions } from '../../../store/actions'
 import { Link } from 'react-router-dom'
 import Links from '../../routes/links'
 import Input from '../../components/InputWithLabel'
 import Button from '../../components/Button'
 import H1 from '../../BasicComponents/H1'
+import Error from '../../components/Error'
 const style = {
     display: "flex",
     padding: "20px 0 0 0",
     flexDirection: "column",
     textAlign: "center"
 };
-function Login({ login, handleLogin, password, handlePassword, handleSubmit, loginError, passwordError }) {
+function Login({ login, handleLogin, password, handlePassword, handleSubmit, loginError, passwordError, error }) {
     return (
         <div>
             <form onSubmit={handleSubmit} style={style}>
                 <H1>Login Page</H1>
+                {!error || <Error>{error}</Error>}
                 <Input placeholder="Login" type="text" value={login} error={loginError} onChange={handleLogin} />
                 <Input placeholder="Password" type="password" value={password} error={passwordError} onChange={handlePassword} />
                 <Button type="submit">Login</Button>
@@ -30,7 +33,20 @@ function Login({ login, handleLogin, password, handlePassword, handleSubmit, log
     )
 }
 const enhance = compose(
-    connect(),
+    connect(
+        state => ({
+            error: state.Errors.error
+        })
+    ),
+    lifecycle({
+        componentWillUnmount() {
+            const { dispatch } = this.props;
+            dispatch({
+                type: listenerActions.ERRORS_CLEAN,
+                payload: {}
+            })
+        }
+    }),
     withStateHandlers(
         ({ initialLogin = '', initialLoginError = '', initialPassword = '', initialPasswordError = '' }) => ({
             login: initialLogin,

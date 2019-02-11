@@ -8,5 +8,7 @@ export default {
     LEFT_ROOM: `${prefix}:LEFT_ROOM`,
     DELETE_ROOM: `${prefix}:DELETE_ROOM`,
     USER_JOIN: `${prefix}:USER_JOIN`,
-    USER_LEFT: `${prefix}:USER_LEFT`
+    USER_LEFT: `${prefix}:USER_LEFT`,
+    USER_OFFLINE: `${prefix}:USER_OFFLINE`,
+    USER_ONLINE: `${prefix}:USER_ONLINE`
 }

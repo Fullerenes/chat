@@ -4,6 +4,8 @@ const userFetch = (answer) => {
     if (answer.error.error) {
         logout();
     }
+    console.log('userFetch');
+    console.log(answer);
     return answer;
 }
 export const loginApi = (login, password) => {

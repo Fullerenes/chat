@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 const _ = require('lodash');
 const express = require('express');
 const md5 = require('md5');
@@ -14,6 +13,14 @@ const users = require('./api/users');
 const rooms = require('./api/rooms');
 const app = express();
 
+// var expressMongoDb = require('express-mongo-db');
+// app.use(expressMongoDb('mongodb://localhost/test'));
+// var dbo = app.db.db("chat");
+// dbo.collection("users").find().limit(5).toArray(function (err, result) {
+//     if (err) throw err;
+//     console.log(result);
+//     app.db.close();
+// });
 let nextUserId = Object.keys(users).length;
 
 app.set('port', (process.env.PORT || 5000));
@@ -235,7 +242,7 @@ io.on('connect', function (socket) {
                     const roomId = room;
                     const newMessage = Message(messages, {
                         roomId,
-                        message: `User ${nickname} left room`
+                        message: `User ${nickname} offline`
                     });
                     const event = {
                         payload: {
@@ -245,10 +252,10 @@ io.on('connect', function (socket) {
                             userId
                         }
                     }
-                    console.log('Emit userLeftRoom ##START##');
+                    console.log('Emit userOffline ##START##');
                     console.log(event);
-                    console.log('Emit userLeftRoom ##END##');
-                    return io.to(roomId).emit('userLeftRoom', event);
+                    console.log('Emit userOffline ##END##');
+                    return io.to(roomId).emit('userOffline', event);
                 }
             );
         }
@@ -296,7 +303,7 @@ io.on('connect', function (socket) {
                 const event = {
                     payload: {
                         roomId,
-                        messages: messages[roomId]
+                        messages: messages[roomId].slice(-50)
                     }
                 };
                 console.log('Emit roomFetchedMessages ##START##');
@@ -322,7 +329,7 @@ io.on('connect', function (socket) {
                         message: `user join ${roomId}`
                     }
                 };
-                rooms[roomId].currentUsers[userId] = nickname;
+                rooms[roomId].currentUsers[userId] = { 'nickname': nickname, 'online': true };
                 console.log('Emit joinedRoom ##START##');
                 console.log(event);
                 console.log('Emit joinedRoom ##END##');
@@ -411,6 +418,8 @@ app.post('/api/login', (req, res) => {
         res.json(answer);
     } else {
         const answer = makeAnswer({}, "User not Found or password doesn't match");
+        console.log("User not Found or password doesn't match");
+        console.log(answer);
         res.json(answer);
     }
     if (save) {

@@ -108,6 +108,18 @@ function createSocketChannel(socket) {
             }
             emit(action);
         }
+        const userOffline = (event) => {
+            let payload = {
+                roomId: event.payload.roomId,
+                userId: event.payload.userId,
+                nickname: event.payload.nickname
+            };
+            let action = {
+                type: roomsActions.USER_OFFLINE,
+                payload
+            }
+            emit(action);
+        }
         const userChangeNickname = (event) => {
             //let payload = { message: event.payload.message, roomId: event.payload.roomId }
             // let action = {
@@ -143,6 +155,7 @@ function createSocketChannel(socket) {
         socket.on('error', errorHandler);
         socket.on('userJoinRoom', userJoinRoom);
         socket.on('userLeftRoom', userLeftRoom);
+        socket.on('userOffline', userOffline);
         socket.on('disconnect', disconnectHandler);
         socket.on('nicknameChanged', nicknameChanged)
         socket.on('userChangeNickname', userChangeNickname)

@@ -1,11 +1,16 @@
-import { call, take, fork, put, cancel } from 'redux-saga/effects'
+import { call, take, fork, put, cancel, takeEvery } from 'redux-saga/effects'
 import userSaga from './user'
 import chatSaga from './chat'
 import listenerSaga from './listener'
 import { listenerActions, errorActions, userActions } from '../actions'
-
+function* errorsClean() {
+    yield put({
+        type: errorActions.CLEAN
+    })
+}
 function* rootSaga() {
     while (true) {
+        yield takeEvery(listenerActions.ERRORS_CLEAN, errorsClean);
         const loginCheckTask = yield fork(userSaga.LoginCheck);
         const registrationTask = yield fork(userSaga.Registration);
         const loginTask = yield fork(userSaga.Login);

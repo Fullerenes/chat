@@ -32,6 +32,7 @@ export function changeNickname({ nickname }, socket) {
     console.log('changeNickname END');
     return nickname;
 }
+
 export function connect() {
     const socket = io(config.server);
     console.log(socket);
@@ -42,6 +43,7 @@ export function connect() {
         });
     });
 }
+
 export function disconnect(socket) {
     return socket.disconnect();
 }
